@@ -1,0 +1,251 @@
+<!-- Source: KQM Theorycrafting Library — docs\characters\pyro\hu-tao.md -->
+<!-- License: https://github.com/KQM-git/TCL/blob/master/LICENSE -->
+
+---
+description: The 77th Director of the Wangsheng Funeral Parlor. She took over the business at a rather young age.
+---
+
+import char from '@site/src/data/characters/Hu_Tao.json'
+import SkillIcon from '@site/src/components/char/SkillIcon'
+
+# Hu Tao
+
+import Image from '@theme/IdealImage'
+
+<Image img={require('/img/characters/gacha/Hu_Tao.png')} alt="Hu Tao's gacha art" />
+<blockquote>{frontMatter.description}</blockquote>
+
+## Resources
+
+* [Hu Tao Mains Discord](https://discord.gg/hutaoscorner)
+* [Hu Tao Guide](https://keqingmains.com/hu-tao/)
+* [Hu Tao Video Guide](https://www.youtube.com/watch?v=l6YJTXkgXdM)
+
+## Base Stats
+
+import CharStatsTable from '@site/src/components/char/CharStatsTable'
+
+<CharStatsTable char={char} />
+
+## Attacks
+
+import Skill from '@site/src/components/char/Skill'
+
+<Tabs queryString="ability">
+<TabItem value='na' label='Normal Attacks'>
+<SkillIcon char={char} skill='na' />
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Normal Attack' />
+
+| String | Talent 9%      | Frames | MV/s      | Poise Damage | Impulse Type |
+| :----- | :------------- | :----- | :-------- | :----------- | :----------- |
+| 1-Hit  | 78.85%         | 19     | 249.00%/s | 35.76        | 3            |
+| 2-Hit  | 81.15%         | 17     | 286.41%/s | 36.88        | 3            |
+| 3-Hit  | 102.68%        | 31     | 198.74%/s | 46.64        | 3            |
+| 4-Hit  | 110.4%         | 35     | 189.26%/s | 50.08        | 3            |
+| 5-Hit  | 55.96% + 59.2% | 42     | 160.69%/s | 26.2 x2      | 1 + 4        |
+| 6-Hit  | 144.57%        | 79     | 109.80%/s | 26.2         | 6            |
+
+</div>
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Charged Attack' />
+
+| String | Talent 9% | Frames | MV/s      | Poise Damage | Impulse Type |
+| :----- | :-------- | :----- | :-------- | :----------- | :----------- |
+| CA     | 228.66%   | 61     | 224.91%/s | 120          | 2            |
+| N1C    | 307.51%   | 86     | 214.54%/s | -            | -            |
+| N2C    | 388.66%   | 82     | 226.69%/s | -            | -            |
+| N3C    | 491.34%   | 89     | 223.38%/s | -            | -            |
+| N4C    | 601.74%   | 98     | 207.59%/s | -            | -            |
+| N5C    | 716.90%   | 115    | 179.38%/s | -            | -            |
+
+</div>
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Plunging Attack' />
+
+| Damage Type     | Talent 9% | Poise Damage | Impulse Type |
+| :-------------- | :-------- | :----------- | :----------- |
+| Plunge DMG      | 110.02%   | 25           | 2            |
+| Low Plunge DMG  | 220%      | 100          | 4            |
+| High Plunge DMG | 274.79%   | 150          | 7            |
+
+</div>
+
+**Notes**
+
+* MV/s are calculated using the shortest possible frames without any animation cancels, for different cancels see [below](#frames).
+* Hu Tao's [Charged Attacks strings can be cancelled as soon as she blinks](./hu-tao#animation-cancels).
+* Hu Tao's Charged Attacks ghost through small enemies.
+* Hu Tao's [Vape MV/s](/img/hutaovapemvs.jpg)
+
+From [JinJinx's Master Mess Sheet.](https://docs.google.com/spreadsheets/d/1tXwNi_TPojdocCIci3v6nhd87kNwsmFpOjxJS3NKMKs/edit#gid=1353671486)
+
+</TabItem>
+
+<TabItem value='e' label='Skill'>
+<SkillIcon char={char} skill='e' />
+<div class='talent-columns'>
+<div>
+<Skill char={char} skill='e' sectionFilter='' />
+<Skill char={char} skill='e' sectionFilter='Paramita Papilio' />
+</div>
+
+| Attribute            | Paramita Papilio |
+| :------------------- | :--------------- |
+| ATK Increase \(T9%\) | 5.96% Max HP     |
+| Activation Cost      | 30% Current HP   |
+| Particles            | 2~3 \(3:2\)      |
+| Infusion Element     | Pyro             |
+| Duration             | 9s               |
+| Cooldown             | 16s              |
+| Casting Poise Damage | 120              |
+| Casting Impulse Type | 3                |
+
+</div>
+<div class='talent-columns'>
+<Skill char={char} skill='e' sectionFilter='Blood Blossom' />
+
+| Attribute                 | Blood Blossom |
+| :------------------------ | :------------ |
+| Blood Blossom DMG \(T9%\) | 108.8%        |
+| GU                        | 1U            |
+| ICD                       | Standard      |
+| Snapshot                  | Dynamic       |
+| Damage Element            | Pyro          |
+| Damage Type               | Skill         |
+| Duration                  | 8s            |
+| Poise Damage              | 0             |
+| Impulse Type              | 1             |
+
+</div>
+
+**Notes**
+
+* The **Paramita Papilio** state does not affect Poise Damage or Impulse Type of the Normal, Charged, or Plunging Attacks.
+* Blood Blossom tick rate is effected by hitlag. \(+1s\)
+* Elemental Particles are generated by Pyro-infused Normal and Charged Attacks during **Paramita Papilio**.
+  * There is a 5-second ICD between instances of Particle production.
+  * Meaning, ideally Hu Tao will generate Particles twice while infused
+  * Plunging Attacks do not generate Particles.
+* Paramita Papilio can be extended with hitlag.
+* When entering Paramita Papilio the knockback will cause the Illusory Bubble from Mona's Stellaris Phantasm to be removed and the Omen debuff applied even though no damage was done.
+* Hu Tao's Elemental Skill activation is a 0 DMG hit that isn't counted as Skill DMG, therefore it cannot proc effects that require a Skill DMG hit such as 4pc Tenacity of the Millileth and 4pc Deepwood Memories set effects.
+
+</TabItem>
+
+<TabItem value='q' label='Burst'>
+<SkillIcon char={char} skill='q' />
+<div class='talent-columns'>
+<Skill char={char} skill='q' sectionFilter=''/>
+
+| Attribute                       | Burst         |
+| :------------------------------ | :------------ |
+| Skill DMG (T9%)                 | 470.34%       |
+| Low HP Skill DMG (T9%)          | 587.93%       |
+| Skill HP Regeneration (T9%)     | 9.71% Max HP  |
+| Low HP Skill Regeneration (T9%) | 12.95% Max HP |
+| GU                              | 2U            |
+| ICD                             | None          |
+| Snapshot                        | On Cast       |
+| Damage Element                  | Pyro          |
+| Damage Type                     | Burst         |
+| Energy Cost                     | 60            |
+| Cooldown                        | 15s           |
+| Poise Damage                    | 250           |
+| Impulse Type                    | 3             |
+
+</div>
+
+**Notes**
+
+* Spirit Soother is snapshot on cast, and will even extend Paramita Papilio to do so.
+
+</TabItem>
+</Tabs>
+
+## Frames
+
+import charFrames from '@site/src/data/frames/Hu_Tao.json'
+import Frames from '@site/src/components/char/Frames'
+
+<Frames data={charFrames} />
+
+## Ascension Passives
+
+import Passive from '@site/src/components/char/Passive'
+
+<Tabs queryString="passive">
+<TabItem value='passive' label='Passive'>
+<Passive char={char} passive={2} />
+</TabItem>
+
+<TabItem value='a1' label='Ascension 1'>
+<Passive char={char} passive={0} />
+
+**Notes**
+
+* The buff persists for its full duration even when this character leaves party. Click [here](../../evidence/combat-mechanics/party-mechanics.md#debuffsteam-buffs-with-duration-persist-after-applier-leaves-party) for the finding. 
+
+</TabItem>
+
+<TabItem value="a4" label="Ascension 4">
+<Passive char={char} passive={1} />
+
+</TabItem>
+</Tabs>
+
+## Constellations
+
+import Constellation from '@site/src/components/char/Constellation'
+
+<Tabs queryString="constellation">
+<TabItem value='c1' label='C1'>
+<Constellation char={char} constellation={1} />
+</TabItem>
+
+<TabItem value='c2' label='C2'>
+<Constellation char={char} constellation={2} />
+</TabItem>
+
+<TabItem value='c3' label='C3'>
+<Constellation char={char} constellation={3} />
+</TabItem>
+
+<TabItem value='c4' label='C4'>
+<Constellation char={char} constellation={4} />
+ 
+**Notes**
+ 
+* The buff persists for its full duration even when this character leaves party. Click [here](../../evidence/combat-mechanics/party-mechanics.md#debuffsteam-buffs-with-duration-persist-after-applier-leaves-party) for the finding.
+
+</TabItem>
+
+<TabItem value='c5' label='C5'>
+<Constellation char={char} constellation={5} />
+</TabItem>
+
+<TabItem value='c6' label='C6'>
+<Constellation char={char} constellation={6} />
+</TabItem>
+</Tabs>
+
+## Full Talent Values
+
+import TalentsFull from '@site/src/components/char/TalentsFull'
+
+<TalentsFull char={char} />
+
+## Media
+
+<Tabs>
+<TabItem value='ani' label='Animation Cancels'>
+
+* [C1 N1C Dash Cancel](https://i.imgur.com/MrtQfVD.mp4)
+* [N2C Jump Cancel](https://i.imgur.com/z7kGCGB.mp4)
+
+</TabItem>
+</Tabs>
+
+## Evidence Vault
+
+<Card item={require('../../evidence/characters/pyro/hu-tao.md')} />

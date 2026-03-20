@@ -1,0 +1,242 @@
+<!-- Source: KQM Theorycrafting Library — docs\characters\electro\lisa.md -->
+<!-- License: https://github.com/KQM-git/TCL/blob/master/LICENSE -->
+
+---
+description: The languid but knowledgeable Librarian of the Knights of Favonius, deemed by Sumeru Akademiya to be their most distinguished graduate in the past two centuries.
+---
+
+import char from '@site/src/data/characters/Lisa.json'
+import SkillIcon from '@site/src/components/char/SkillIcon'
+
+# Lisa
+
+import Image from '@theme/IdealImage'
+
+<Image img={require('/img/characters/gacha/Lisa.png')} alt="Lisa's gacha art" />
+<blockquote>{frontMatter.description}</blockquote>
+
+## Resources
+
+* [Lisa Mains Discord](https://discord.gg/5SYy4MPPCt)
+* [Full Lisa Written Guide](https://keqingmains.com/lisa/)
+
+## Base Stats
+
+import CharStatsTable from '@site/src/components/char/CharStatsTable'
+
+<CharStatsTable char={char} />
+
+## Attacks
+
+import Skill from '@site/src/components/char/Skill'
+
+<Tabs queryString="ability">
+<TabItem value='na' label='Normal Attacks'>
+<SkillIcon char={char} skill='na' />
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Normal Attack' />
+
+| String | Talent 9% | Frames | MV/s      | GU  | Poise Damage | Impulse Type |
+| :----- | :-------- | :----- | :-------- | :-- | :----------- | :----------- |
+| 1-Hit  | 67.32%    | 30     | 134.64%/s | 1U  | 6.75         | 1            |
+| 2-Hit  | 61.06%    | 20     | 183.18%/s | 1U  | 6            | 1            |
+| 3-Hit  | 72.76%    | 34     | 128.40%/s | 1U  | 7.35         | 1            |
+| 4-Hit  | 93.43%    | 57     | 98.35%/s  | 1U  | 8.7          | 1            |
+
+</div>
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Charged Attack' />
+
+| String         | Talent 9% | Frames | MV/s      | GU  | ICD  | Poise Damage | Impulse Type |
+| :------------- | :-------- | :----- | :-------- | :-- | :--- | :----------- | :----------- |
+| Charged Attack | 301.1%    | 91     | 198.53%/s | 1U  | 0.5s | 15           | 3            |
+
+</div>
+<div class='talent-columns'>
+<Skill char={char} skill='na' sectionFilter='Plunging Attack' />
+
+| Type            | Talent 9% | Poise Damage | Impulse Type |
+| :-------------- | :-------- | :----------- | :----------- |
+| Plunge DMG      | 104.41%   | 5            | 2            |
+| Low Plunge DMG  | 208.77%   | 50           | 3            |
+| High Plunge DMG | 260.76%   | 100          | 4            |
+
+</div>
+
+**Notes**
+
+* MV/s are calculated using the shortest possible frames without any animation cancels, for different cancels see [below](#frames).
+* Lisa's 3rd Normal Attack recovery has 2 different animations. She will either teleport backwards or forward depending on the position of her target.
+* Standard ICD, shared with tap Elemental Skill.
+
+</TabItem>
+
+<TabItem value='e' label='Skill'>
+<SkillIcon char={char} skill='e' />
+<div class='talent-columns'>
+<Skill char={char} skill='e' />
+
+| Attribute         | Tap                               | Hold \(0 / 1 / 2 / 3 stacks\)                |
+| :---------------- | :-------------------------------- | :------------------------------------------- |
+| Skill DMG \(T9%\) | 136%                              | 544% / 625.6% / 720.8% / 828.24%             |
+| MV/s \(T9%\)      | 388.57%/s                         | 281.38%/s / 323.59%/s / 372.83%/s / 428.4%/s |
+| GU                | 1U                                | 2U                                           |
+| ICD               | Standard <br/> \(Shared with NA\) | None                                         |
+| Particles         | -                                 | 5 \(-\)                                      |
+| Damage Element    | Electro                           | Electro                                      |
+| Damage Type       | Skill                             | Skill                                        |
+| CD                | 1s                                | 16s                                          |
+| Poise Damage      | 18                                | 150 / 195 / 240 / 300                        |
+| Impulse Type      | 2                                 | 2 / 2 / 2 / 2                                |
+
+</div>
+
+**Notes**
+
+* The **Lightning Orb** bounces to nearby targets with the small AoE spreading **Conductive** stacks each bounce
+  * This means in tight enough groups, it can apply all 3 stacks in a single Press E.
+  * **Conductive** stacks last 15s with independent timers. Beyond 3 **Conductive** stacks, additional applications will refresh the stack(s) with the least remaining duration.
+  * As **Conductive** stacks are an enemy attribute, multiple players using Lisa in Co-op share **Conductive** stacks consumption and stacking.
+* The hitbox of Lisa's Hold E is a cylinder with the following dimensions/attributes:
+  * Its Radius is indicated by its VFX and mobs' centers have to be inside said radius in order to take damage.
+  * Its Height/Depth is either unlimited or absurdly large. This is difficult to properly quantize.
+  * Its hitbox can clip through the terrain, allowing it to connect with enemies that are out of Lisa's direct Line of Sight.
+* Lisa can Utilize Pyro/Cryo with her Press E variant of **Violet Arc** to Stack **Conductive** Stacks
+  * When an opponent affected by Pyro or Cryo is struck, the mob directly hit will immediately gain 2 **Conductive** Stacks, and others in the resulting Overload or Superconduct radius will gain 1 **Conductive** Stack
+  * If Violet Arc connects and causes Overload or Superconduct while in a Pyro or Cryo-environment \(the most common ones being Burning Grass and Frozen Water\), the direct hit mob will obtain 3 **Conductive** stacks and will radiate 2 stacks to nearby opponents.
+  * If 2 opponents are nearby and only one is afflicted with a status, if the afflicted mob is hit, both enemies will gain 3 stacks of **Conductive**
+
+</TabItem>
+
+<TabItem value='q' label='Burst'>
+<SkillIcon char={char} skill='q' />
+<div class='talent-columns'>
+<Skill char={char} skill='q'/>
+
+| Attribute             | Burst                        |
+| :-------------------- | :--------------------------- |
+| Summon DMG            | 10%                          |
+| Discharge DMG \(T9%\) | 62.15% \* 29                 |
+| Tick Rate             | 0.5s                         |
+| MV/s                  | 102.4%/s                     |
+| GU                    | 1U                           |
+| ICD                   | Standard                     |
+| Damage Element        | Electro                      |
+| Damage Type           | Burst                        |
+| Energy Cost           | 80                           |
+| Duration              | 15s                          |
+| CD                    | 20s                          |
+| Poise Damage          | 10                           |
+| Impulse Type          | Summon: 4 <br/> Discharge: 2 |
+
+</div>
+
+**Notes**
+
+* **Lightning Rose** has an unlisted instance of damage on initial summon
+  * Summon damage is 10% at all talent levels.
+  * Summon damage does not apply an Electro Aura.
+  * Summon damage does not apply the DEF Shred from **Static Electricity Field** \(A4\).
+* Enemy targeting seems fully randomized between all opponents in-range.
+* Discharges from **Lightning Rose** have a small AoE on impact. In tight enemy groups, a lightning bolt can deal damage to multiple enemies at once.
+* The hitbox of Lisa's Lightning Rose is a cylinder with the following dimensions/attributes:
+  * Its Radius is indicated by its VFX and mobs' centers have to be inside said radius in order to take damage. Misleadingly, the actual area is not the flowered decal, but the soft tinted circle of purple.
+  * Its Height/Depth is either unlimited or absurdly large. This is difficult to properly quantize.
+  * Its hitbox can clip through terrain (allowing it to connect with enemies that are out of Lisa's direct Line of Sight); see Azhdaha.
+* Surrounding opponents are only launched if made airborne while their poise is broken. Poise-broken grounded enemies are frequently staggered instead.
+* The initial Summon DMG dealt by **Lightning Rose** is dealt once within a specific area.
+  * This area is a flat circular plane which shares the radius of **Lightning Rose** (7m).
+  * The Summon DMG cannot deal damage to enemies whose hurtboxes are below or above near the suspended plane of which **Lightning Rose** was casted on.
+* More than one **Lightning Roses** can co-exist with sufficient cooldown reduction.
+* **Lightning Rose** is able to target and trigger Dendro Cores, both directly, from an Arc's Discharges/Bolts directly connecting to them, and indirectly, by nearby Discharges/Bolts' AoEs.
+  * If there are enemies present within Lightning Rose's radius, Discharges/Bolts from Arcs will prioritize targeting enemies over Dendro Cores.
+
+</TabItem>
+</Tabs>
+
+## Frames
+
+import charFrames from '@site/src/data/frames/Lisa.json'
+import Frames from '@site/src/components/char/Frames'
+
+<Frames data={charFrames} />
+
+## Ascension Passives
+
+import Passive from '@site/src/components/char/Passive'
+
+<Tabs queryString="passive">
+<TabItem value='passive' label='Passive'>
+<Passive char={char} passive={2} />
+</TabItem>
+
+<TabItem value='a1' label='Ascension 1'>
+<Passive char={char} passive={0} />
+</TabItem>
+
+<TabItem value="a4" label="Ascension 4">
+<Passive char={char} passive={1} />
+
+**Notes**
+ 
+* The DEF shred persists for its full duration even when this character leaves party. Click [here](../../evidence/combat-mechanics/party-mechanics.md#debuffsteam-buffs-with-duration-persist-after-applier-leaves-party) for the finding.
+
+</TabItem>
+</Tabs>
+
+## Constellations
+
+import Constellation from '@site/src/components/char/Constellation'
+
+<Tabs queryString="constellation">
+<TabItem value='c1' label='C1'>
+<Constellation char={char} constellation={1} />
+
+**Notes**
+
+* This only applies to the Hold E variant.
+* This summons a single special Particle that only provides Energy if Lisa is on field.
+
+</TabItem>
+
+<TabItem value='c2' label='C2'>
+<Constellation char={char} constellation={2} />
+</TabItem>
+
+<TabItem value='c3' label='C3'>
+<Constellation char={char} constellation={3} />
+</TabItem>
+
+<TabItem value='c4' label='C4'>
+<Constellation char={char} constellation={4} />
+
+**Notes**
+
+* In tight enemy groups, **Plasma Eruption** can quadratically increase the damage of **Lightning Rose** due to the AoE of each lightning bolt released.
+
+</TabItem>
+
+<TabItem value='c5' label='C5'>
+<Constellation char={char} constellation={5} />
+</TabItem>
+
+<TabItem value='c6' label='C6'>
+<Constellation char={char} constellation={6} />
+
+**Notes**
+
+* The pulse visual effect and cooldown are not initiated when not in combat, but will still apply **Conductive** stacks nearby.
+* The radius of this effect is 5m and its height is seemingly infinite, regardless of whether or not Lisa is in combat.
+
+</TabItem>
+</Tabs>
+
+## Full Talent Values
+
+import TalentsFull from '@site/src/components/char/TalentsFull'
+
+<TalentsFull char={char}/>
+
+## Evidence Vault
+
+<Card item={require('../../evidence/characters/electro/lisa.md')} />

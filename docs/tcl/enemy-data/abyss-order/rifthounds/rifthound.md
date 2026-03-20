@@ -1,0 +1,97 @@
+<!-- Source: KQM Theorycrafting Library — docs\enemy-data\abyss-order\rifthounds\rifthound.md -->
+<!-- License: https://github.com/KQM-git/TCL/blob/master/LICENSE -->
+
+---
+sidebar_position: 1
+description: A beast with monstrous blood that is capable of eroding the boundaries of the world. They were created by "Gold".
+---
+
+# Rifthound
+
+## Weakspot Details
+
+None.
+
+## Energy drops
+
+| HP Threshold | Type       | Element     |
+| :----------- | :--------- | :---------- |
+| 66% HP       | 1 Particle | Own Element |
+| 33% HP       | 1 Particle | Own Element |
+| Death        | 1 Particle | Own Element |
+
+## Resistance Table
+
+| Damage Type | Resistance |
+| :---------- | :--------- |
+| Physical    | 25%        |
+| Pyro        | 25%        |
+| Dendro      | 25%        |
+| Hydro       | 25%        |
+| Electro     | 25%        |
+| Anemo       | 25%        |
+| Cryo        | 25%        |
+| Geo         | 25%        |
+
+## Stat Block
+
+| Level | HP     |
+| :---- | :----- |
+| 60    | 62013  |
+| 65    | 81528  |
+| 70    | 102565 |
+| 75    | 128338 |
+| 80    | 165456 |
+| 85    | 211387 |
+| 90    | 259702 |
+| 95    | 318001 |
+| 100   | 388220 |
+
+## Rifthounds
+
+<Tabs queryString="variant">
+<TabItem value="geo" label="Geo">
+
+## Rockfond Rifthound
+
+They do display certain biological behaviors similar to those of real wolves. Perhaps they feel jealousy towards these their "next of kin," and dream of replacing them someday.
+
+## Attacks
+
+* Corrosion: When their attacks hit a character, that character and other characters in the party will be afflicted by the Corrosion status, losing HP every second.
+  * Shielded characters will not be immune to corrosion.
+* The Rifthound swipes at the player with their claws.
+* The Rifthound temporarily turns invisible to attack the player from another direction.
+* If struck with the same Element of their affinity, they will accumulate Rage. When filled, their attacks become more dangerous but their resistance against their aligned Element decreases.
+* If the player is far away, they will charge a ball of Energy on their tails and launch it at the player.
+* The Rifthound dive bombs the player in a manner similar to the Thunder Manifestation.
+
+</TabItem>
+
+<TabItem value="electro" label="Electro">
+
+## Thundercraven Rifthound
+
+Once upon a time, they ran riot across the continent, but they went extinct for a time due to resistance and mass hunts. Recently, however, they have re-emerged. The pack of black wolves that now threaten Springvale and Wolvendom are such creatures.
+
+## Attacks
+
+* Corrosion: When their attacks hit a character, that character and other characters in the party will be afflicted by the Corrosion status, losing HP every second.
+  * Shielded characters will not be immune to corrosion.
+* The Rifthound swipes at the player with their claws.
+* The Rifthound temporarily turns invisible to attack the player from another direction.
+* If struck with the same Element of their affinity, they will accumulate Rage. When filled, their attacks become more dangerous but their resistance against their aligned Element decreases.
+* If the player is far away, they will charge a ball of Energy on their tails and launch it at the player.
+* The Rifthound dive bombs the player in a manner similar to the Thunder Manifestation.
+
+</TabItem>
+</Tabs>
+
+## Interactions
+
+* Some attacks (listed below) can knock Rifthounds prone.
+  * Jean CA
+  * Jean Hold E
+  * Klee CA
+  * Bennett Skill (Hold level 2)
+  * Diluc Burst (Final Hit)

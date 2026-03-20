@@ -1,0 +1,129 @@
+name: Irminsul Corpus — Weekly Auto-Update
+
+on:
+  # Run every Sunday at 2am UTC
+  schedule:
+    - cron: "0 2 * * 0"
+
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      steps:
+        description: "Steps to run (space-separated: tcl structured synthesize community ingest)"
+        required: false
+        default: "tcl structured synthesize community"
+
+  # Also run on push to main (for testing pipeline changes)
+  push:
+    branches: [main]
+    paths:
+      - "pipeline/**"
+      - "generate_corpus.py"
+      - "run_pipeline.py"
+
+jobs:
+  update-corpus:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit docs back to repo
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive   # pulls vendor/TCL submodule
+          fetch-depth: 0          # full history for proper git operations
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Python setup ──────────────────────────────────────────────────────────
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── Create .env from secrets ──────────────────────────────────────────────
+      - name: Configure environment
+        run: |
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
+          echo "PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}" >> .env
+          echo "PINECONE_INDEX=${{ secrets.PINECONE_INDEX || 'llmops-rag' }}" >> .env
+          echo "EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2" >> .env
+
+      # ── Create required directories ────────────────────────────────────────────
+      - name: Setup directories
+        run: mkdir -p logs docs/structured docs/tcl docs/generated docs/community
+
+      # ── Step 1: Refresh KQM TCL ───────────────────────────────────────────────
+      - name: Refresh KQM TCL
+        if: "!contains(github.event.inputs.steps, 'skip-tcl')"
+        run: python pipeline/1_setup_tcl.py --refresh
+        continue-on-error: true
+
+      # ── Step 2: Fetch structured game data ────────────────────────────────────
+      - name: Fetch structured game data
+        run: python pipeline/2_fetch_structured.py --type all
+        continue-on-error: true
+
+      # ── Step 3: Gemini synthesis ──────────────────────────────────────────────
+      - name: Synthesize with Gemini
+        run: python generate_corpus.py --resume
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      # ── Step 4: Community signals ─────────────────────────────────────────────
+      - name: Fetch community signals
+        run: python pipeline/4_fetch_community.py --type all
+        continue-on-error: true
+
+      # ── Ingest to Pinecone (optional — only if PINECONE secrets set) ──────────
+      - name: Ingest to Pinecone
+        if: "${{ secrets.PINECONE_API_KEY != '' }}"
+        run: |
+          pip install pinecone-client sentence-transformers
+          python -c "
+          import sys
+          sys.path.insert(0, '.')
+          from ingest_remote import ingest_all
+          ingest_all()
+          " 
+        continue-on-error: true
+        env:
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+
+      # ── Commit updated docs back to repo ──────────────────────────────────────
+      - name: Commit corpus updates
+        run: |
+          git config user.name  "irminsul-bot"
+          git config user.email "actions@github.com"
+
+          git add docs/
+          git add logs/last_run.json || true
+
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit — corpus is up to date"
+          else
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            CHAR_COUNT=$(find docs/ -name "*.md" | wc -l)
+            git commit -m "corpus: auto-update ${TIMESTAMP} (${CHAR_COUNT} files)"
+            git push
+            echo "✓ Corpus committed and pushed"
+          fi
+
+      # ── Summary ───────────────────────────────────────────────────────────────
+      - name: Pipeline summary
+        if: always()
+        run: |
+          echo "=== Corpus file counts ==="
+          echo "Structured:  $(find docs/structured -name '*.md' 2>/dev/null | wc -l) files"
+          echo "TCL:         $(find docs/tcl -name '*.md' 2>/dev/null | wc -l) files"
+          echo "Synthesized: $(find docs/generated -name '*.md' 2>/dev/null | wc -l) files"
+          echo "Community:   $(find docs/community -name '*.md' 2>/dev/null | wc -l) files"
+          echo "Total:       $(find docs/ -name '*.md' 2>/dev/null | wc -l) files"
+          cat logs/last_run.json 2>/dev/null || echo "No run log found"

@@ -1,0 +1,12 @@
+<!-- Source: KQM Theorycrafting Library — docs\equipment\gadgets\bokuso-box.md -->
+<!-- License: https://github.com/KQM-git/TCL/blob/master/LICENSE -->
+
+# Bokuso Box
+
+## Miscellaneous Findings
+
+* The bokuso box from the event Three Realms Gateway Offering can CRIT, making so that it can also proc Favonius weapons.
+
+## Evidence Vault
+
+<Card item={require('../../evidence/equipment/gadgets/bokuso-box.md')} />

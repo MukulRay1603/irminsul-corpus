@@ -1,0 +1,8 @@
+# Gemini API (new SDK — google-generativeai is deprecated)
+google-genai>=1.0.0
+
+# HTTP (structured + community fetchers)
+requests>=2.31.0
+
+# Utilities
+python-dotenv==1.0.1
