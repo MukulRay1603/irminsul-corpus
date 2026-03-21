@@ -8,14 +8,15 @@ Full run (weekly):
 Specific steps only:
     python run_pipeline.py --steps tcl structured
     python run_pipeline.py --steps synthesize
+    python run_pipeline.py --steps ingest
     python run_pipeline.py --steps community
 
 Steps:
     tcl         → refresh KQM TCL submodule + copy files
     structured  → fetch genshin-db API data (characters, weapons, artifacts)
     synthesize  → Gemini prose generation grounded in Tier 1 data
-    community   → Reddit community signals
-    ingest      → push changed files to Pinecone
+    community   → HoYoverse + ambr.top fetcher
+    ingest      → embed docs + push to Pinecone (runs ingest.py locally)
 """
 
 import os
@@ -29,6 +30,8 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv()
+
+Path("logs").mkdir(exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -54,45 +57,56 @@ def run_step(script: str, args: list[str] = None) -> bool:
 
 
 def step_tcl():
-    logger.info("═══ STEP 1: KQM TCL Refresh ═══")
+    logger.info("--- STEP 1: KQM TCL Refresh ---")
     return run_step("pipeline/1_setup_tcl.py", ["--refresh"])
 
 
 def step_structured():
-    logger.info("═══ STEP 2: Structured Data Fetch ═══")
+    logger.info("--- STEP 2: Structured Data Fetch ---")
     return run_step("pipeline/2_fetch_structured.py", ["--type", "all"])
 
 
 def step_synthesize():
-    logger.info("═══ STEP 3: Gemini Synthesis ═══")
+    logger.info("--- STEP 3: Gemini Synthesis ---")
     return run_step("generate_corpus.py", ["--resume"])
 
 
 def step_community():
-    logger.info("═══ STEP 4: Community Signals ═══")
+    logger.info("--- STEP 4: Community Signals ---")
     return run_step("pipeline/4_fetch_community.py", ["--type", "all"])
 
 
 def step_ingest():
-    logger.info("═══ STEP 5: Pinecone Ingest ═══")
-    # Check if Irminsul path is configured
-    irminsul_path = os.getenv("IRMINSUL_PATH")
-    if not irminsul_path:
-        logger.warning(
-            "IRMINSUL_PATH not set — skipping Pinecone ingest.\n"
-            "Set IRMINSUL_PATH=/path/to/irminsul in .env to enable auto-ingest."
-        )
-        return True  # not a failure — just skipped
+    """
+    Ingest all docs into Pinecone using the local ingest.py.
+    Works both locally and in GitHub Actions (no IRMINSUL_PATH needed).
+    Requires PINECONE_API_KEY in environment.
+    """
+    logger.info("--- STEP 5: Pinecone Ingest ---")
 
-    ingest_script = Path(irminsul_path) / "ingest.py"
+    pinecone_key = os.getenv("PINECONE_API_KEY")
+    if not pinecone_key:
+        logger.warning(
+            "PINECONE_API_KEY not set — skipping ingest.\n"
+            "Add it to .env locally or GitHub Actions secrets for auto-ingest."
+        )
+        return True  # not a failure — CI without key should still pass
+
+    ingest_script = Path(__file__).parent / "ingest.py"
     if not ingest_script.exists():
         logger.error(f"ingest.py not found at {ingest_script}")
         return False
 
     docs_path = Path("./docs").resolve()
+    logger.info(f"Ingesting from: {docs_path}")
+
     return run_step(
         str(ingest_script),
-        ["--dir", str(docs_path), "--chunk-size", "300", "--chunk-overlap", "40"]
+        [
+            "--dir", str(docs_path),
+            "--chunk-size", "300",
+            "--chunk-overlap", "40",
+        ]
     )
 
 
@@ -112,11 +126,12 @@ def write_run_summary(results: dict):
         "docs_counts": {}
     }
 
-    # Count files per tier
-    for tier_dir in Path("docs").iterdir():
-        if tier_dir.is_dir():
-            count = sum(1 for _ in tier_dir.rglob("*.md"))
-            summary["docs_counts"][tier_dir.name] = count
+    docs_dir = Path("docs")
+    if docs_dir.exists():
+        for tier_dir in docs_dir.iterdir():
+            if tier_dir.is_dir():
+                count = sum(1 for _ in tier_dir.rglob("*.md"))
+                summary["docs_counts"][tier_dir.name] = count
 
     Path("logs/last_run.json").write_text(
         __import__("json").dumps(summary, indent=2)
@@ -125,8 +140,6 @@ def write_run_summary(results: dict):
 
 
 if __name__ == "__main__":
-    Path("logs").mkdir(exist_ok=True)
-
     parser = argparse.ArgumentParser(description="Irminsul corpus pipeline runner")
     parser.add_argument(
         "--steps",
@@ -148,11 +161,11 @@ if __name__ == "__main__":
             logger.warning(f"Step '{step_name}' failed — continuing with remaining steps")
 
     elapsed = round(time.time() - start)
-    logger.info(f"\n{'═'*50}")
+    logger.info(f"\n{'='*50}")
     logger.info(f"Pipeline complete in {elapsed}s")
     for step, status in results.items():
-        icon = "✓" if status == "ok" else "✗"
-        logger.info(f"  {icon} {step}: {status}")
-    logger.info(f"{'═'*50}")
+        icon = "OK" if status == "ok" else "FAIL"
+        logger.info(f"  [{icon}] {step}: {status}")
+    logger.info(f"{'='*50}")
 
     write_run_summary(results)

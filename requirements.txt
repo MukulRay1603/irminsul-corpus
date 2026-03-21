@@ -1,7 +1,11 @@
-# Gemini API (new SDK — google-generativeai is deprecated)
+# Gemini API (new SDK)
 google-genai>=1.0.0
 
-# HTTP (structured + community fetchers)
+# Pinecone + embeddings for ingest step
+pinecone-client==5.0.1
+sentence-transformers==4.1.0
+
+# HTTP
 requests>=2.31.0
 
 # Utilities
