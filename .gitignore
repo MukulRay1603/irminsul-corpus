@@ -34,3 +34,15 @@ logs/*.log
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code settings
+.claude/
+
+# Generated logs (keep last_run.json only)
+logs/progress.json
+logs/generation.log
+logs/wiki_scrape.log
+logs/discover.log
+logs/fetch_structured.log
+logs/ingest.log
+logs/pipeline.log

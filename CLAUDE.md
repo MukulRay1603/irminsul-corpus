@@ -9,8 +9,8 @@ Autonomous, self-updating Genshin Impact knowledge base for the [Irminsul RAG as
 The corpus uses a **three-tier data architecture** to minimize hallucination risk:
 
 - **Tier 1 (Ground Truth)**: `docs/tcl/` — KQM Theorycrafting Library (peer-reviewed, git submodule) + `docs/structured/` — genshin-db API (exact stats, talents, weapons, artifacts)
-- **Tier 2 (Expert Synthesis)**: `docs/generated/` — Gemini writes WITH Tier 1 data as context (cannot hallucinate stats because the numbers are in the prompt)
-- **Tier 3 (Community Signal)**: `docs/community/` — Reddit top posts (meta shifts, buff/nerf sentiment, explicitly tagged as opinion)
+- **Tier 2 (Canonical)**: `docs/wiki/` — Genshin Impact Fandom Wiki via MediaWiki API
+- **Tier 3 (Community)**: `docs/community/` — Reddit signals (inactive, manual only)
 
 ## Common Commands
 
@@ -22,16 +22,16 @@ python run_pipeline.py
 
 # Specific steps only
 python run_pipeline.py --steps tcl structured
-python run_pipeline.py --steps synthesize
+python run_pipeline.py --steps wiki
 python run_pipeline.py --steps ingest
 
 # Individual step commands
+python pipeline/0_discover_characters.py      # Discover new characters from wiki
 python pipeline/1_setup_tcl.py --init         # First-time TCL setup
 python pipeline/1_setup_tcl.py --refresh      # Update KQM TCL
 python pipeline/2_fetch_structured.py         # Fetch game data (characters, weapons, artifacts)
 python pipeline/2_fetch_structured.py --type characters  # Specific data type only
-python generate_corpus.py --resume            # Gemini synthesis (skips done files)
-python generate_corpus.py --list              # Show all topics to generate
+python pipeline/3_scrape_wiki.py              # MediaWiki API scraper (incremental)
 python pipeline/4_fetch_community.py --type all
 python pipeline/4_fetch_community.py --character "Kokomi"
 ```
@@ -43,7 +43,7 @@ python pipeline/4_fetch_community.py --character "Kokomi"
 python ingest.py
 
 # Single tier only
-python ingest.py --dir docs/generated
+python ingest.py --dir docs/wiki
 
 # Custom chunking
 python ingest.py --chunk-size 300 --chunk-overlap 40
@@ -55,6 +55,12 @@ python ingest.py --clear
 ## Architecture
 
 ### Pipeline Steps (defined in `run_pipeline.py`)
+
+0. **discover** → `pipeline/0_discover_characters.py`
+   - Auto-discovers new characters from Genshin Impact Fandom Wiki
+   - Compares against existing name cache
+   - Writes new characters to `docs/wiki/new_characters.json`
+   - Used by wiki scraper to fetch newly added characters
 
 1. **tcl** → `pipeline/1_setup_tcl.py --refresh`
    - Pulls latest KQM Theorycrafting Library as git submodule
@@ -70,24 +76,19 @@ python ingest.py --clear
    - Outputs to `docs/structured/` as .md files
    - Resume-safe: skips already-fetched files
 
-3. **synthesize** → `generate_corpus.py --resume`
-   - Uses Gemini 2.5 Flash-Lite (15 RPM, 1000 RPD free tier)
-   - Generates 600-1200 word entries grounded in Tier 1 data
-   - Topics registered in `TOPICS` array (line 81+) as `(category, slug, display_name, prompt_instructions)`
-   - Self-throttles with 5-second delays + 65-second retry on rate limits
-   - Progress tracked in `logs/progress.json`
-   - Outputs to `docs/generated/`
+3. **wiki** → `pipeline/3_scrape_wiki.py`
+   - Fetches from Genshin Impact Fandom Wiki via MediaWiki API
+   - One .md file per character with lore, abilities, storyline
+   - Incremental: skips unchanged pages (timestamp-based)
+   - Smart name resolver with persistent cache
+   - Outputs to `docs/wiki/characters/`
 
 4. **community** → `pipeline/4_fetch_community.py --type all`
    - Fetches Reddit top posts (meta shifts, sentiment)
    - Tagged as "community opinion — not ground truth"
    - Best-effort step (failures don't block pipeline)
 
-5. **wiki** → `pipeline/5_fetch_wiki.py --type all`
-   - Scrapes HoYoverse + ambr.top wiki data
-   - Best-effort step
-
-6. **ingest** → `ingest.py`
+5. **ingest** → `ingest.py`
    - Embeds all .md/.txt files from `docs/` using `sentence-transformers/all-MiniLM-L6-v2` (384-dim, local, free)
    - Chunks with 300 word overlap of 40 words by default
    - Upserts to Pinecone in batches of 100
@@ -97,13 +98,12 @@ python ingest.py --clear
 
 Runs every Sunday at 2am UTC (`cron: "0 2 * * 0"`):
 
-1. Run pipeline steps: tcl, structured, synthesize, community, wiki
-2. Commit updated `docs/` back to repo (full audit trail)
-3. Ingest into Pinecone (after commit, so docs are saved even if ingest fails)
+1. Run pipeline steps: discover, tcl, structured, wiki
+2. Commit updated metadata to repo (name_cache.json, new_characters.json, last_run.json)
+3. Ingest into Pinecone (after commit, so metadata is saved even if ingest fails)
 4. Upload logs as artifacts (14-day retention)
 
 Requires GitHub Actions secrets:
-- `GEMINI_API_KEY`
 - `PINECONE_API_KEY`
 - `PINECONE_INDEX` (default: llmops-rag)
 
@@ -112,9 +112,7 @@ Requires GitHub Actions secrets:
 ```
 KQM/TCL submodule → docs/tcl/           (peer-reviewed theorycrafting)
 genshin-db API    → docs/structured/    (exact game stats)
-                    ↓
-            Gemini synthesis → docs/generated/  (grounded prose)
-                    ↓
+MediaWiki API     → docs/wiki/          (canonical lore)
 Reddit API        → docs/community/     (meta signals)
                     ↓
         sentence-transformers → embeddings
@@ -125,29 +123,19 @@ Reddit API        → docs/community/     (meta signals)
 ### Key Files
 
 - `run_pipeline.py`: Master orchestrator, defines step sequence and runs each script
-- `generate_corpus.py`: Large file (16k tokens) with full topic registry starting at line 81
+- `pipeline/0_discover_characters.py`: Auto-discovers new characters from wiki
 - `pipeline/1_setup_tcl.py`: Git submodule manager, copies files with attribution headers
 - `pipeline/2_fetch_structured.py`: genshin-db API client with Windows CP1252 encoding fixes
+- `pipeline/3_scrape_wiki.py`: MediaWiki API scraper with smart name resolution and incremental updates
 - `ingest.py`: Standalone Pinecone uploader, no dependency on Irminsul serving repo
 
 ### Environment Variables
 
 Required in `.env`:
-- `GEMINI_API_KEY` — from https://aistudio.google.com (free tier)
 - `PINECONE_API_KEY` — for vector DB ingest
 - `PINECONE_INDEX` — index name (default: llmops-rag)
 
 ## Important Behaviors
-
-### Rate Limiting (Gemini)
-
-`generate_corpus.py` uses Gemini 2.5 Flash-Lite with strict rate limits:
-- 15 requests per minute (RPM)
-- 1000 requests per day (RPD)
-- Script enforces 5-second delay AFTER each response
-- On rate limit (429), waits 65 seconds (full window)
-- Each generation takes ~10s response time + 5s delay = ~15s per topic
-- Full corpus generation (~80 topics) takes ~20 minutes
 
 ### Windows Compatibility
 
@@ -158,7 +146,7 @@ Required in `.env`:
 
 ### Resume Safety
 
-Both `pipeline/2_fetch_structured.py` and `generate_corpus.py` skip already-generated files. Safe to Ctrl+C and resume without re-fetching. Use `--resume` flag for `generate_corpus.py`.
+`pipeline/2_fetch_structured.py` and `pipeline/3_scrape_wiki.py` skip already-generated files. Safe to Ctrl+C and resume without re-fetching. Wiki scraper uses timestamp-based incremental updates.
 
 ### File Exclusions
 
@@ -169,29 +157,12 @@ Both `pipeline/2_fetch_structured.py` and `generate_corpus.py` skip already-gene
 ## Expected Output
 
 After full pipeline run:
-- ~300 files in `docs/tcl/`
-- ~500 files in `docs/structured/`
-- ~80 files in `docs/generated/`
-- ~80 files in `docs/community/`
-- Total: ~960 .md files
-- Logs in `logs/pipeline.log`, `logs/generation.log`, `logs/fetch_structured.log`, `logs/ingest.log`
-- Progress state in `logs/progress.json`, `logs/last_run.json`
-
-## Adding New Topics for Gemini Synthesis
-
-Edit `generate_corpus.py`, add entries to the `TOPICS` array (line 81+):
-
-```python
-("category", "slug", "Display Name", "Detailed prompt instructions...")
-```
-
-Categories: `reactions`, `mechanics`, `characters`, `weapons`, `team_building`, `spiral_abyss`, `lore`
-
-Each prompt should:
-- Be tightly scoped (one topic per file for clean RAG chunking)
-- Request specific details (numbers, names, mechanics)
-- Specify minimum 600 words (aim for 800-1200)
-- Follow the `SYSTEM_PROMPT` rules (line 58-79)
+- ~305 files in `docs/tcl/`
+- ~405 files in `docs/structured/`
+- ~130 files in `docs/wiki/characters/`
+- Total: ~840 .md files
+- Logs in `logs/pipeline.log`, `logs/fetch_structured.log`, `logs/wiki_scrape.log`, `logs/ingest.log`
+- Metadata in `docs/wiki/name_cache.json`, `docs/wiki/new_characters.json`, `logs/last_run.json`
 
 ## Git Workflow
 
@@ -206,35 +177,21 @@ When working locally:
 - `vendor/TCL/` is ignored in `.gitignore` to prevent submodule conflicts
 - GitHub Actions bot commits with user `github-actions[bot]`
 
-## Planned Rebuild (DO NOT use generate_corpus.py as the model for new code)
+## Architecture Notes
 
-The current `generate_corpus.py` approach is being REPLACED. Problems:
-- Gemini hallucinates details even when prompted carefully
-- 15 RPM / 1000 RPD rate limits cause GitHub Actions failures
-- LLM-generated prose is not ground truth — it's a liability in a RAG system
+Gemini generation was replaced with deterministic MediaWiki API scraping. `generate_corpus.py` has been removed. The active pipeline is:
 
-New architecture replaces Gemini generation with deterministic scraping:
+```
+discover → tcl → structured → wiki → ingest
+```
 
-### New Step 3: `pipeline/3_scrape_wiki.py`
-- Source: Genshin Impact Fandom Wiki via MediaWiki API
-  - Endpoint: https://genshin-impact.fandom.com/api.php
-  - No authentication required, no rate limit issues
-  - Returns canonical wikitext per character/topic page
-- One .md file per character, one file per major topic
-- Strip wikitext markup → clean markdown
-- Tag each file with frontmatter: source, page title, scraped date
-- Output: docs/wiki/ (new tier, replaces docs/generated/)
+This architecture eliminates:
+- LLM hallucination risk (Gemini was generating plausible but incorrect details)
+- Rate limit failures (15 RPM / 1000 RPD caused GitHub Actions timeouts)
+- API key dependencies (no GEMINI_API_KEY needed)
 
-### What stays the same:
-- pipeline/1_setup_tcl.py — keep as-is
-- pipeline/2_fetch_structured.py — keep as-is  
-- pipeline/4_fetch_community.py — keep as-is
-- ingest.py — keep as-is
-
-### What gets retired:
-- generate_corpus.py — DO NOT edit or extend this file
-- docs/generated/ — will be replaced by docs/wiki/
-
-### Resume claim this enables:
-"Replaced LLM-generated corpus with deterministic MediaWiki API scraping pipeline — 
-zero hallucination risk, no rate limits, canonical lore per character auto-updating weekly."
+The MediaWiki API approach provides:
+- Canonical lore directly from Genshin Impact Fandom Wiki
+- No rate limits, no authentication required
+- Incremental timestamp-based updates (only re-fetches changed pages)
+- Smart name resolution with persistent caching
