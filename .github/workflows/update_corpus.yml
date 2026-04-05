@@ -16,6 +16,7 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Initialize git submodules
         run: |
@@ -53,8 +54,10 @@ jobs:
           git add logs/last_run.json || true
           git add docs/wiki/name_cache.json || true
           git add docs/wiki/new_characters.json || true
-          git diff --staged --quiet || git commit -m "chore: weekly corpus update $(date -u '+%Y-%m-%d')"
-          git push
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: weekly corpus update $(date -u '+%Y-%m-%d')"
+          git pull --rebase origin main || true
+          git push origin main
 
       - name: Ingest into Pinecone
         run: python run_pipeline.py --steps ingest
