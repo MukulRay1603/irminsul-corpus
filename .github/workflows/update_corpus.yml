@@ -2,18 +2,19 @@ name: Weekly Corpus Update
 
 on:
   schedule:
-    - cron: "0 2 * * 0"   # every Sunday at 2am UTC
-  workflow_dispatch:        # allows manual trigger from GitHub UI
+    - cron: "0 2 * * 0"   # Every Sunday 2am UTC
+  workflow_dispatch:        # Manual trigger from GitHub UI
 
 jobs:
   update-corpus:
     runs-on: ubuntu-latest
-    timeout-minutes: 120    # 805 files + Gemini synthesis can take a while
+    timeout-minutes: 120
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
+          submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -25,40 +26,38 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run pipeline — TCL + structured data
-        run: python run_pipeline.py --steps tcl structured
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Run pipeline — discover new characters
+        run: python run_pipeline.py --steps discover
 
-      - name: Run pipeline — Gemini synthesis
-        run: python run_pipeline.py --steps synthesize
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Run pipeline — TCL theorycrafting
+        run: python run_pipeline.py --steps tcl
 
-      - name: Run pipeline — community signals
-        # community step is best-effort — failures don't block ingest
-        run: python run_pipeline.py --steps community || echo "Community step failed — continuing"
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Run pipeline — structured game data
+        run: python run_pipeline.py --steps structured
 
-      - name: Commit updated docs back to repo
+      - name: Run pipeline — wiki scraper
+        # Incremental: skips unchanged, updates changed, fetches new
+        run: python run_pipeline.py --steps wiki
+
+      - name: Commit updated docs to repo
         run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/
           git add logs/last_run.json || true
+          git add docs/wiki/name_cache.json || true
+          git add docs/wiki/new_characters.json || true
           git diff --staged --quiet || git commit -m "chore: weekly corpus update $(date -u '+%Y-%m-%d')"
           git push
 
-      - name: Ingest updated docs into Pinecone
-        # Runs after commit so the docs are saved even if ingest fails
+      - name: Ingest into Pinecone
         run: python run_pipeline.py --steps ingest
         env:
           PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-          PINECONE_INDEX:   ${{ secrets.PINECONE_INDEX }}
+          PINECONE_INDEX: ${{ secrets.PINECONE_INDEX }}
 
-      - name: Upload pipeline logs
-        if: always()   # upload logs even if a step failed
+      - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pipeline-logs-${{ github.run_number }}

@@ -1,9 +1,9 @@
 # Dark Iron Sword - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** Elemental Mastery 
 
 ## Refinement Comparison
 

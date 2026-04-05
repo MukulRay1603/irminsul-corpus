@@ -1,9 +1,9 @@
 # Thrilling Tales of Dragon Slayers - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** HP 
 
 ## Refinement Comparison
 

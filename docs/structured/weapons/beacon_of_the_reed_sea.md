@@ -1,9 +1,9 @@
 # Beacon of the Reed Sea - Weapon
 
-**Type:** Unknown
+**Type:** Claymore
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 45.9364
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

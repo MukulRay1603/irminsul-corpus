@@ -1,9 +1,9 @@
 # Silvershower Heartstrings - Weapon
 
-**Type:** Unknown
+**Type:** Bow
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 44.3358
+**Secondary Stat:** HP 
 
 ## Refinement Comparison
 

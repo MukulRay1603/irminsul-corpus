@@ -1,9 +1,9 @@
 # Messenger - Weapon
 
-**Type:** Unknown
+**Type:** Bow
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 39.8751
+**Secondary Stat:** CRIT DMG 
 
 ## Refinement Comparison
 

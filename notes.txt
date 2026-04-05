@@ -1,0 +1,17 @@
+Pending content
+
+1. Story Quests, Lore, Archon Quest Lore, Dialogue content for Story
+2. Character appearances in each Quest
+3. Event Content from first and Story
+4. Self Healing (Imp)
+5. Weapons, stats
+6. Team comps, BiS weapons and synergies
+7. Player critics, fandom and reddit content Tier 4 and above.
+8. World Quests - Lore and content sort by region wise
+9. Chests, Oculi and etc guide if possible
+10. Game Mechanics, reactions and tutorials
+11. Achievements, How to get them. 
+12. Try good searching techniques and indexing for speed and intelligence.
+
+
+Rest assured that we can connect RAG web search in case very minor content requires to be searched.

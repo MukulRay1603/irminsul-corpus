@@ -1,9 +1,9 @@
 # Freedom-Sworn - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 45.9364
+**Secondary Stat:** Elemental Mastery 
 
 ## Refinement Comparison
 

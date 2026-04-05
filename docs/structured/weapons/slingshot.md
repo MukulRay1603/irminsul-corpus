@@ -1,9 +1,9 @@
 # Slingshot - Weapon
 
-**Type:** Unknown
+**Type:** Bow
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 37.6075
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

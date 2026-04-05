@@ -1,9 +1,9 @@
 # Bloodtainted Greatsword - Weapon
 
-**Type:** Unknown
+**Type:** Claymore
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 37.6075
+**Secondary Stat:** Elemental Mastery 
 
 ## Refinement Comparison
 

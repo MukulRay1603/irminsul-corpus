@@ -1,9 +1,9 @@
 # Skyward Blade - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 45.9364
+**Secondary Stat:** Energy Recharge 
 
 ## Refinement Comparison
 

@@ -1,9 +1,9 @@
 # Magic Guide - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 37.6075
+**Secondary Stat:** Elemental Mastery 
 
 ## Refinement Comparison
 

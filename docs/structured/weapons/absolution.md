@@ -1,9 +1,9 @@
 # Absolution - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 47.537
+**Secondary Stat:** CRIT DMG 
 
 ## Refinement Comparison
 

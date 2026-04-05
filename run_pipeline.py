@@ -43,7 +43,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-STEPS = ["tcl", "structured", "synthesize", "community", "ingest"]
+STEPS = ["discover", "tcl", "structured", "wiki", "ingest"]
 
 
 def run_step(script: str, args: list[str] = None) -> bool:
@@ -54,6 +54,11 @@ def run_step(script: str, args: list[str] = None) -> bool:
         logger.error(f"Step failed: {script} (exit {result.returncode})")
         return False
     return True
+
+
+def step_discover():
+    logger.info("--- STEP 0: Discover New Characters ---")
+    return run_step(str(Path(__file__).parent / "pipeline/0_discover_characters.py"), [])
 
 
 def step_tcl():
@@ -74,6 +79,23 @@ def step_synthesize():
 def step_community():
     logger.info("--- STEP 4: Community Signals ---")
     return run_step("pipeline/4_fetch_community.py", ["--type", "all"])
+
+
+def step_wiki():
+    """
+    Run wiki scraper on all characters.
+    The scraper handles incremental updates internally:
+    - Skips unchanged pages (timestamp check)
+    - Updates modified pages
+    - Fetches new characters from new_characters.json if present
+    """
+    logger.info("--- STEP 5: Wiki Scraper (Incremental) ---")
+    import json
+    new_file = Path("docs/wiki/new_characters.json")
+    # Always run full scraper — it handles incremental updates internally
+    # (skips unchanged, updates changed, fetches new)
+    # If new_characters.json exists with new chars, those get fetched too
+    return run_step(str(Path(__file__).parent / "pipeline/3_scrape_wiki.py"), [])
 
 
 def step_ingest():
@@ -109,12 +131,13 @@ def step_ingest():
         ]
     )
 
-
 STEP_MAP = {
+    "discover":   step_discover,
     "tcl":        step_tcl,
     "structured": step_structured,
     "synthesize": step_synthesize,
     "community":  step_community,
+    "wiki":       step_wiki,
     "ingest":     step_ingest,
 }
 

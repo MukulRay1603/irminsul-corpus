@@ -1,9 +1,9 @@
 # Royal Longsword - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 42.401
+**Secondary Stat:** ATK 
 
 ## Refinement Comparison
 

@@ -1,9 +1,9 @@
 # Ballad of the Boundless Blue - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 43.7349
+**Secondary Stat:** Energy Recharge 
 
 ## Refinement Comparison
 

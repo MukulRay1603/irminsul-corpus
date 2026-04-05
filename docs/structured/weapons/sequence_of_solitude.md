@@ -1,9 +1,9 @@
 # Sequence of Solitude - Weapon
 
-**Type:** Unknown
+**Type:** Bow
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 42.401
+**Secondary Stat:** HP 
 
 ## Refinement Comparison
 

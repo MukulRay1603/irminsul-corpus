@@ -1,9 +1,9 @@
 # Deathmatch - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 41.0671
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

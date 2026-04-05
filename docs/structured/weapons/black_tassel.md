@@ -1,9 +1,9 @@
 # Black Tassel - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 37.6075
+**Secondary Stat:** HP 
 
 ## Refinement Comparison
 

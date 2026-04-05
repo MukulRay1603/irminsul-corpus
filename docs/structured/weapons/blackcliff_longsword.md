@@ -1,9 +1,9 @@
 # Blackcliff Longsword - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 43.7349
+**Secondary Stat:** CRIT DMG 
 
 ## Refinement Comparison
 

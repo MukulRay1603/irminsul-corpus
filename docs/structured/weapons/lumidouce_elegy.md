@@ -1,9 +1,9 @@
 # Lumidouce Elegy - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 45.9364
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

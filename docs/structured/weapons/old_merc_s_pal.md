@@ -1,6 +1,6 @@
 # Old Merc's Pal - Weapon
 
-**Type:** Unknown
+**Type:** Claymore
 **Rarity:** 2 star
-**Base ATK:** ?
+**Base ATK:** 32.93
 **Secondary Stat:** None 

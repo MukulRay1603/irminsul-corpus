@@ -1,11 +1,11 @@
 # Hu Tao - Character Data
 
-**Element:** Unknown
-**Weapon:** Unknown
+**Element:** Pyro
+**Weapon:** Polearm
 **Rarity:** 5 star
 **Region:** Liyue
 **Affiliation:** Wangsheng Funeral Parlor
-**Ascension Stat:** Unknown
+**Ascension Stat:** CRIT DMG
 
 ## Description
 
@@ -19,33 +19,46 @@ The 77th Director of the Wangsheng Funeral Parlor. She took over the business at
 
 ### Crimson Bouquet (C1)
 
-
+While in a Paramita Papilio state activated by Guide to Afterlife, Hu Tao's Charged Attacks do not consume Stamina.
 
 ### Ominous Rainfall (C2)
 
-
+Increases the Blood Blossom DMG by an amount equal to 10% of Hu Tao's Max HP at the time the effect is applied.
+Additionally, Spirit Soother will also apply the Blood Blossom effect.
 
 ### Lingering Carmine (C3)
 
-
+Increases the Level of Guide to Afterlife by 3.
+Maximum upgrade level is 15.
 
 ### Garden of Eternal Rest (C4)
 
-
+Upon defeating an enemy affected by a Blood Blossom that Hu Tao applied herself, all nearby allies in the party (excluding Hu Tao herself) will have their CRIT Rate increased by 12% for 15s.
 
 ### Floral Incense (C5)
 
-
+Increases the Level of Spirit Soother by 3.
+Maximum upgrade level is 15.
 
 ### Butterfly's Embrace (C6)
 
-
+Triggers when Hu Tao's HP drops below 25%, or when she suffers a lethal strike:
+Hu Tao will not fall as a result of the DMG sustained. Additionally, for the next 10s, her All Elemental and Physical RES is increased by 200%, her CRIT Rate is increased by 100%, and her resistance to interruption is greatly increased.
+This effect triggers automatically when Hu Tao has 1 HP left.
+Can only occur once every 60s.
 
 ## Talents
 
 ### Secret Spear of Wangsheng ()
 
+Normal Attack
+Performs up to 6 consecutive spear strikes.
 
+Charged Attack
+Consumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.
+
+Plunging Attack
+Plunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.
 
 **Scaling (T1 / T6 / T10):**
 - 1-Hit DMG|{}: 46.9% -> 64.5% -> 83.6%
@@ -59,7 +72,20 @@ The 77th Director of the Wangsheng Funeral Parlor. She took over the business at
 
 ### Guide to Afterlife ()
 
+Only an unwavering flame can cleanse the impurities of this world.
+Hu Tao consumes a set portion of her HP to knock the surrounding enemies back and enter the Paramita Papilio state.
 
+Paramita Papilio
+·Increases Hu Tao's ATK based on her Max HP at the time of entering this state. ATK Bonus gained this way cannot exceed 400% of Hu Tao's Base ATK.
+·Converts attack DMG to Pyro DMG, which cannot be overridden by any other elemental infusion.
+·Charged Attacks apply the Blood Blossom effect to the enemies hit.
+·Increases Hu Tao's resistance to interruption.
+
+Blood Blossom
+Enemies affected by Blood Blossom will take Pyro DMG every 4s. This DMG is considered Elemental Skill DMG.
+Each enemy can be affected by only one Blood Blossom effect at a time, and its duration may only be refreshed by Hu Tao herself.
+
+Paramita Papilio ends when its duration is over, or Hu Tao has left the battlefield or fallen.
 
 **Scaling (T1 / T6 / T10):**
 - Activation Cost|{} Current HP: 30.0% -> 30.0% -> 30.0%
@@ -71,7 +97,9 @@ The 77th Director of the Wangsheng Funeral Parlor. She took over the business at
 
 ### Spirit Soother ()
 
-
+Commands a blazing spirit to attack, dealing Pyro DMG in a large AoE.
+Upon striking the enemy, regenerates a percentage of Hu Tao's Max HP. This effect can be triggered up to 5 times, based on the number of enemies hit.
+If Hu Tao's HP is below or equal to 50% when the enemy is hit, both the DMG and HP Regeneration are increased.
 
 **Scaling (T1 / T6 / T10):**
 - Skill DMG|{}: 303.3% -> 399.5% -> 494.0%
@@ -83,15 +111,15 @@ The 77th Director of the Wangsheng Funeral Parlor. She took over the business at
 
 ### Flutter By ()
 
-
+When a Paramita Papilio state activated by Guide to Afterlife ends, all allies in the party (excluding Hu Tao herself) will have their CRIT Rate increased by 12% for 8s.
 
 ### Sanguine Rouge ()
 
-
+When Hu Tao's HP is equal to or less than 50%, her Pyro DMG Bonus is increased by 33%.
 
 ### The More the Merrier ()
 
-
+When Hu Tao cooks a dish perfectly, she has an 18% chance to receive an additional "Suspicious" dish of the same type.
 
 ## Ascension Materials
 

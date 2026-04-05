@@ -1,6 +1,6 @@
 # Pocket Grimoire - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 2 star
-**Base ATK:** ?
+**Base ATK:** 32.93
 **Secondary Stat:** None 

@@ -1,9 +1,9 @@
 # Calamity Queller - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 49.1377
+**Secondary Stat:** ATK 
 
 ## Refinement Comparison
 

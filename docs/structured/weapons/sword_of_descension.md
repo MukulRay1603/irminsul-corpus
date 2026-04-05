@@ -1,6 +1,6 @@
 # Sword of Descension - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 4 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** ATK 

@@ -1,9 +1,9 @@
 # Staff of the Scarlet Sands - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 44.3358
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

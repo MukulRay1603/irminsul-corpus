@@ -1,9 +1,9 @@
 # Skyrider Sword - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 37.6075
+**Secondary Stat:** Energy Recharge 
 
 ## Refinement Comparison
 

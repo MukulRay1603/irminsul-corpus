@@ -1,6 +1,6 @@
 # Apprentice's Notes - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 1 star
-**Base ATK:** ?
+**Base ATK:** 23.245
 **Secondary Stat:** None 

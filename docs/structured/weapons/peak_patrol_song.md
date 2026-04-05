@@ -1,9 +1,9 @@
 # Peak Patrol Song - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 44.3358
+**Secondary Stat:** DEF 
 
 ## Refinement Comparison
 

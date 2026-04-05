@@ -1,9 +1,9 @@
 # Surf's Up - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 44.3358
+**Secondary Stat:** CRIT DMG 
 
 ## Refinement Comparison
 

@@ -1,6 +1,6 @@
 # Iron Point - Weapon
 
-**Type:** Unknown
+**Type:** Polearm
 **Rarity:** 2 star
-**Base ATK:** ?
+**Base ATK:** 32.93
 **Secondary Stat:** None 

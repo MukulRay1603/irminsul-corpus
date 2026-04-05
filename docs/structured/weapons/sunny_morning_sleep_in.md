@@ -1,9 +1,9 @@
 # Sunny Morning Sleep-In - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 44.3358
+**Secondary Stat:** Elemental Mastery 
 
 ## Refinement Comparison
 

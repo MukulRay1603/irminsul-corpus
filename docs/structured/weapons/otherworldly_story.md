@@ -1,9 +1,9 @@
 # Otherworldly Story - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** Energy Recharge 
 
 ## Refinement Comparison
 

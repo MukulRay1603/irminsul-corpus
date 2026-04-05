@@ -98,6 +98,32 @@ def safe_log(msg: str):
     logger.info(clean)
 
 
+def validate_file(filepath: Path, required_fields: list[str]) -> bool:
+    """
+    Check if a structured file has real content in required fields.
+    Returns False if any required field contains 'Unknown', 'N/A',
+    '?', or is empty. Used to detect stale files with broken field mappings.
+    """
+    if not filepath.exists():
+        return False
+    text = filepath.read_text(encoding="utf-8")
+    bad_values = {"unknown", "n/a", "?", "none", ""}
+    for field in required_fields:
+        # Find line like "**Element:** Unknown"
+        for line in text.split("\n"):
+            if field.lower() in line.lower() and "**" in line:
+                value = line.split(":", 1)[-1].strip().lower()
+                if value in bad_values:
+                    return False
+    return True
+
+
+# ── Required fields for validation ────────────────────────────────────────────
+CHARACTER_REQUIRED = ["Element", "Weapon", "Ascension Stat"]
+WEAPON_REQUIRED = ["Type", "Base ATK", "Secondary Stat"]
+ARTIFACT_REQUIRED = ["2-Piece Bonus", "4-Piece Bonus"]
+
+
 # ── Character fetcher ──────────────────────────────────────────────────────────
 def fetch_characters():
     out = OUTPUT_DIR / "characters"
@@ -112,9 +138,12 @@ def fetch_characters():
         slug     = re.sub(r"[^\w]", "_", name.lower()).strip("_")
         out_file = out / f"{slug}.md"
 
-        if out_file.exists():
-            skipped += 1
-            continue
+        if out_file.exists() and out_file.stat().st_size > 200:
+            if validate_file(out_file, CHARACTER_REQUIRED):
+                skipped += 1
+                continue
+            else:
+                safe_log(f"  REHEAL {name} — stale fields detected, re-fetching")
 
         try:
             char = api_get("characters", {"query": name})
@@ -125,12 +154,12 @@ def fetch_characters():
             lines = [
                 f"# {char.get('name', name)} - Character Data",
                 "",
-                f"**Element:** {char.get('element', 'Unknown')}",
-                f"**Weapon:** {char.get('weapontype', 'Unknown')}",
+                f"**Element:** {char.get('elementText', 'Unknown')}",
+                f"**Weapon:** {char.get('weaponText', 'Unknown')}",
                 f"**Rarity:** {char.get('rarity', '?')} star",
                 f"**Region:** {char.get('region', 'Unknown')}",
                 f"**Affiliation:** {char.get('affiliation', 'Unknown')}",
-                f"**Ascension Stat:** {char.get('substat', 'Unknown')}",
+                f"**Ascension Stat:** {char.get('substatText', 'Unknown')}",
                 "",
             ]
 
@@ -165,7 +194,7 @@ def fetch_characters():
                     c = constellations.get(level)
                     if c and isinstance(c, dict):
                         c_name   = c.get("name", level.upper())
-                        c_effect = c.get("effect", "")
+                        c_effect = c.get("description", "")
                         lines += [f"### {c_name} ({level.upper()})\n\n{c_effect}\n"]
             time.sleep(DELAY)
 
@@ -179,8 +208,8 @@ def fetch_characters():
                     if not t or not isinstance(t, dict):
                         continue
                     t_name = t.get("name", t_key)
-                    t_info = t.get("info", "")
-                    t_type = t.get("talenttype", "")
+                    t_info = t.get("description", "")
+                    t_type = ""
                     lines += [f"### {t_name} ({t_type})\n\n{t_info}\n"]
 
                     # Scaling table
@@ -250,9 +279,12 @@ def fetch_weapons():
         slug     = re.sub(r"[^\w]", "_", name.lower()).strip("_")
         out_file = out / f"{slug}.md"
 
-        if out_file.exists():
-            skipped += 1
-            continue
+        if out_file.exists() and out_file.stat().st_size > 200:
+            if validate_file(out_file, WEAPON_REQUIRED):
+                skipped += 1
+                continue
+            else:
+                safe_log(f"  REHEAL {name} — stale fields detected, re-fetching")
 
         try:
             weapon = api_get("weapons", {"query": name})
@@ -262,10 +294,10 @@ def fetch_weapons():
             lines = [
                 f"# {weapon.get('name', name)} - Weapon",
                 "",
-                f"**Type:** {weapon.get('weapontype', 'Unknown')}",
+                f"**Type:** {weapon.get('weaponText', 'Unknown')}",
                 f"**Rarity:** {weapon.get('rarity', '?')} star",
-                f"**Base ATK:** {weapon.get('baseatk', '?')}",
-                f"**Secondary Stat:** {weapon.get('substat', 'None')} {weapon.get('subvalue', '')}",
+                f"**Base ATK:** {weapon.get('baseAtkValue', '?')}",
+                f"**Secondary Stat:** {weapon.get('mainStatText', 'None')} {weapon.get('subvalue', '')}",
                 "",
             ]
 
@@ -321,9 +353,12 @@ def fetch_artifacts():
         slug     = re.sub(r"[^\w]", "_", name.lower()).strip("_")
         out_file = out / f"{slug}.md"
 
-        if out_file.exists():
-            skipped += 1
-            continue
+        if out_file.exists() and out_file.stat().st_size > 200:
+            if validate_file(out_file, ARTIFACT_REQUIRED):
+                skipped += 1
+                continue
+            else:
+                safe_log(f"  REHEAL {name} — stale fields detected, re-fetching")
 
         try:
             aset = api_get("artifacts", {"query": name})
@@ -332,11 +367,11 @@ def fetch_artifacts():
                 continue
 
             # genshin-db artifact response shape:
-            # { name, rarity, 2pc, 4pc, flower:{}, plume:{}, sands:{}, goblet:{}, circlet:{} }
-            # bonuses may be under "2pc"/"4pc" or "setBonuses" list
-            bonus_2pc = (aset.get("2pc") or aset.get("setBonuses", [{}])[0].get("description", "N/A")
-                         if aset.get("setBonuses") else aset.get("2pc", "N/A"))
-            bonus_4pc = (aset.get("4pc") or
+            # { name, rarity, effect2Pc, effect4Pc, flower:{}, plume:{}, sands:{}, goblet:{}, circlet:{} }
+            # bonuses may be under "effect2Pc"/"effect4Pc" or "setBonuses" list
+            bonus_2pc = (aset.get("effect2Pc") or aset.get("setBonuses", [{}])[0].get("description", "N/A")
+                         if aset.get("setBonuses") else aset.get("effect2Pc", "N/A"))
+            bonus_4pc = (aset.get("effect4Pc") or
                          (aset.get("setBonuses", [{}, {}])[1].get("description", "N/A")
                           if len(aset.get("setBonuses", [])) > 1 else "N/A"))
 
@@ -420,7 +455,60 @@ if __name__ == "__main__":
         choices=list(FETCHERS.keys()) + ["all"],
         default="all"
     )
+    parser.add_argument(
+        "--validate",
+        action="store_true",
+        help="Scan all existing files for broken fields without re-fetching"
+    )
     args = parser.parse_args()
+
+    # Validation mode - scan existing files for broken fields
+    if args.validate:
+        logger.info("=== VALIDATION MODE ===")
+        logger.info("Scanning existing files for broken field mappings...\n")
+
+        validation_rules = {
+            "characters": (OUTPUT_DIR / "characters", CHARACTER_REQUIRED),
+            "weapons": (OUTPUT_DIR / "weapons", WEAPON_REQUIRED),
+            "artifacts": (OUTPUT_DIR / "artifacts", ARTIFACT_REQUIRED),
+        }
+
+        total_valid = total_broken = 0
+        broken_files = []
+
+        for tier_name, (tier_dir, required_fields) in validation_rules.items():
+            if not tier_dir.exists():
+                logger.info(f"{tier_name}: directory not found, skipping")
+                continue
+
+            files = list(tier_dir.glob("*.md"))
+            valid = broken = 0
+
+            for f in files:
+                if validate_file(f, required_fields):
+                    valid += 1
+                else:
+                    broken += 1
+                    broken_files.append(f"{tier_name}/{f.name}")
+
+            total_valid += valid
+            total_broken += broken
+            logger.info(f"{tier_name}: {valid} valid, {broken} broken")
+
+        logger.info(f"\n{'='*60}")
+        logger.info(f"TOTAL: {total_valid} valid / {total_broken} broken")
+
+        if broken_files:
+            logger.info(f"\nBroken files ({len(broken_files)}):")
+            for bf in broken_files[:20]:  # Show first 20
+                logger.info(f"  - {bf}")
+            if len(broken_files) > 20:
+                logger.info(f"  ... and {len(broken_files) - 20} more")
+        else:
+            logger.info("\n✓ All files are valid!")
+
+        logger.info(f"{'='*60}")
+        sys.exit(0)
 
     targets = list(FETCHERS.keys()) if args.type == "all" else [args.type]
 

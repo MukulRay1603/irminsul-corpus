@@ -1,9 +1,9 @@
 # Skyward Pride - Weapon
 
-**Type:** Unknown
+**Type:** Claymore
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 47.537
+**Secondary Stat:** Energy Recharge 
 
 ## Refinement Comparison
 

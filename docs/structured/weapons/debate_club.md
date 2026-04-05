@@ -1,9 +1,9 @@
 # Debate Club - Weapon
 
-**Type:** Unknown
+**Type:** Claymore
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** ATK 
 
 ## Refinement Comparison
 

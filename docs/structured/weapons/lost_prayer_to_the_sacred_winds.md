@@ -1,9 +1,9 @@
 # Lost Prayer to the Sacred Winds - Weapon
 
-**Type:** Unknown
+**Type:** Catalyst
 **Rarity:** 5 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 45.9364
+**Secondary Stat:** CRIT Rate 
 
 ## Refinement Comparison
 

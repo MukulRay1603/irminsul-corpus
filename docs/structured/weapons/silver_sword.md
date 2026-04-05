@@ -1,6 +1,6 @@
 # Silver Sword - Weapon
 
-**Type:** Unknown
+**Type:** Sword
 **Rarity:** 2 star
-**Base ATK:** ?
+**Base ATK:** 32.93
 **Secondary Stat:** None 

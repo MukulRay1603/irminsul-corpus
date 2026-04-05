@@ -1,9 +1,9 @@
 # Sharpshooter's Oath - Weapon
 
-**Type:** Unknown
+**Type:** Bow
 **Rarity:** 3 star
-**Base ATK:** ?
-**Secondary Stat:** None 
+**Base ATK:** 38.7413
+**Secondary Stat:** CRIT DMG 
 
 ## Refinement Comparison
 

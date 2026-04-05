@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Hu_Tao&prop=sections&format=json\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Hu_Tao&prop=text&section=0&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); print\\(data['parse']['text']['*'][:2000]\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Hu_Tao/Lore&prop=sections&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); print\\('Valid page!' if 'parse' in data else f\\\\\"Invalid: {data.get\\('error', {}\\).get\\('info', 'unknown error'\\)}\\\\\"\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Hu_Tao/Profile&prop=sections&format=json\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Hu_Tao/Storyline&prop=sections&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); sections=[s['line'] for s in data['parse']['sections']]; print\\('\\\\n'.join\\(f\\\\\"  - {s}\\\\\" for s in sections[:15]\\)\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=query&titles=Hu_Tao/Lore&prop=revisions&rvprop=content&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); pages=data['query']['pages']; content=list\\(pages.values\\(\\)\\)[0].get\\('revisions', [{}]\\)[0].get\\('*', ''\\); print\\(f'Content length: {len\\(content\\)} chars'\\); print\\(content[:500]\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=query&titles=Kaedehara_Kazuha/Profile&prop=revisions&rvprop=content&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); pages=data['query']['pages']; print\\('Page exists!' if '-1' not in pages else 'Page missing'\\)\")",
+      "Bash(python -c ':*)",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Xiao/Profile&prop=text&format=json&disablelimitreport=1&disableeditsection=1\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); html=data['parse']['text']['*']; print\\(html[:2000]\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=query&list=search&srsearch=Traveler&srnamespace=0&srlimit=10&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); results=data['query']['search']; [print\\(r['title']\\) for r in results[:10]]\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Traveler/Profile&prop=sections&format=json\")",
+      "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); print\\('Page exists!' if 'parse' in data else 'Missing'\\)\")",
+      "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Traveler%20\\(Anemo\\)/Profile&prop=sections&format=json\")",
+      "Bash(ls -la E:/Projects/irminsul-corpus/docs/wiki/characters/traveler*.md)"
+    ]
+  }
+}
