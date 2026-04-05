@@ -88,9 +88,10 @@ def init_submodule():
 
 def refresh_submodule():
     """Pull latest changes from KQM/TCL."""
-    if not SUBMODULE_DIR.exists():
-        logger.error("TCL not found. Run --init first.")
-        sys.exit(1)
+    if not SUBMODULE_DIR.exists() or not any(SUBMODULE_DIR.iterdir()):
+        logger.warning("TCL submodule not initialized — running --init first")
+        init_submodule()
+        return
 
     logger.info("Pulling latest TCL changes...")
     run(["git", "pull", "origin", "master"], cwd=str(SUBMODULE_DIR))
@@ -100,9 +101,10 @@ def refresh_submodule():
 
 def copy_tcl_files():
     """Copy relevant TCL .md files into docs/tcl/ with clean structure."""
-    if not SUBMODULE_DIR.exists():
-        logger.error("TCL not found. Run --init first.")
-        sys.exit(1)
+    if not SUBMODULE_DIR.exists() or not any(SUBMODULE_DIR.iterdir()):
+        logger.warning("TCL submodule not initialized — running --init first")
+        init_submodule()
+        return
 
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)

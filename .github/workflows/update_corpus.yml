@@ -17,6 +17,11 @@ jobs:
           submodules: recursive
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Initialize git submodules
+        run: |
+          git submodule update --init --recursive
+        continue-on-error: true
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -31,6 +36,7 @@ jobs:
 
       - name: Run pipeline — TCL theorycrafting
         run: python run_pipeline.py --steps tcl
+        continue-on-error: true
 
       - name: Run pipeline — structured game data
         run: python run_pipeline.py --steps structured

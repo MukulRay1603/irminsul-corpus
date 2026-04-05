@@ -21,7 +21,8 @@
       "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Traveler/Profile&prop=sections&format=json\")",
       "Bash(python -c \"import json, sys; data=json.load\\(sys.stdin\\); print\\('Page exists!' if 'parse' in data else 'Missing'\\)\")",
       "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Traveler%20\\(Anemo\\)/Profile&prop=sections&format=json\")",
-      "Bash(ls -la E:/Projects/irminsul-corpus/docs/wiki/characters/traveler*.md)"
+      "Bash(ls -la E:/Projects/irminsul-corpus/docs/wiki/characters/traveler*.md)",
+      "Bash([ -f README.md ])"
     ]
   }
 }
