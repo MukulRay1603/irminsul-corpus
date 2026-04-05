@@ -23,7 +23,9 @@
       "Bash(curl -s \"https://genshin-impact.fandom.com/api.php?action=parse&page=Traveler%20\\(Anemo\\)/Profile&prop=sections&format=json\")",
       "Bash(ls -la E:/Projects/irminsul-corpus/docs/wiki/characters/traveler*.md)",
       "Bash([ -f README.md ])",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(grep -E \"\\\\.env$|name_cache|new_characters|last_run\")",
+      "Bash(python:*)"
     ]
   }
 }

@@ -11,13 +11,18 @@ venv/
 # Secrets
 .env
 
-# Docs — stored in Pinecone, not git
-# Comment this out if you want git history of docs (not recommended — gets huge)
-docs/generated/
+# Docs — corpus content lives in Pinecone, not git
+# Regenerate locally with: python run_pipeline.py
 docs/tcl/
+docs/structured/
+docs/wiki/characters/
 docs/community/
-# Keep docs/structured/ if you want — it's deterministic and fast to regenerate
-# docs/structured/
+docs/generated/
+
+# Keep these — pipeline metadata, not scraped content
+# docs/wiki/name_cache.json  ← tracked intentionally
+# docs/wiki/new_characters.json  ← tracked intentionally
+# logs/last_run.json  ← tracked intentionally
 
 # Vendor / submodules
 vendor/
