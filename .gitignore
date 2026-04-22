@@ -55,6 +55,7 @@ service-account*.json
 
 # Claude Code settings
 .claude/
+CLAUDE.md
 
 # Generated logs (keep last_run.json only)
 logs/progress.json
