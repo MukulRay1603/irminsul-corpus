@@ -31,9 +31,27 @@ vendor/
 logs/*.log
 # logs/last_run.json  ← keep this one
 
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
 # OS
 .DS_Store
 Thumbs.db
+
+# Misc
+.ipynb_checkpoints/
+*.log
+
+# Secrets
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+service-account*.json
 
 # Claude Code settings
 .claude/
@@ -46,3 +64,10 @@ logs/discover.log
 logs/fetch_structured.log
 logs/ingest.log
 logs/pipeline.log
+
+# Session artifacts
+CHANGES_APPLIED.md
+CLEANUP_DONE_*.md
+*_VERIFICATION.md
+*_RECON.md
+ROTATION_CHECKLIST.md
