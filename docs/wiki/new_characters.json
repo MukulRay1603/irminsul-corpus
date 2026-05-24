@@ -75,10 +75,12 @@
     "Navia",
     "Nefer",
     "Neuvillette",
+    "Nicole",
     "Nilou",
     "Ningguang",
     "Noelle",
     "Ororon",
+    "Prune",
     "Qiqi",
     "Raiden Shogun",
     "Razor",
@@ -199,10 +201,12 @@
     "Navia",
     "Nefer",
     "Neuvillette",
+    "Nicole",
     "Nilou",
     "Ningguang",
     "Noelle",
     "Ororon",
+    "Prune",
     "Qiqi",
     "Raiden Shogun",
     "Razor",
@@ -247,7 +251,7 @@
     "Zhongli",
     "Zibai"
   ],
-  "total_wiki": 122,
+  "total_wiki": 124,
   "total_scraped": 0,
-  "run_date": "2026-05-17"
+  "run_date": "2026-05-24"
 }
