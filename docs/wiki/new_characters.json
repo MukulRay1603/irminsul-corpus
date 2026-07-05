@@ -86,6 +86,7 @@
     "Raiden Shogun",
     "Razor",
     "Rosaria",
+    "Sandrone",
     "Sangonomiya Kokomi",
     "Sayu",
     "Sethos",
@@ -213,6 +214,7 @@
     "Raiden Shogun",
     "Razor",
     "Rosaria",
+    "Sandrone",
     "Sangonomiya Kokomi",
     "Sayu",
     "Sethos",
@@ -253,7 +255,7 @@
     "Zhongli",
     "Zibai"
   ],
-  "total_wiki": 125,
+  "total_wiki": 126,
   "total_scraped": 0,
-  "run_date": "2026-06-28"
+  "run_date": "2026-07-05"
 }
