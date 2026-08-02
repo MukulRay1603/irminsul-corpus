@@ -99,6 +99,7 @@
     "Thoma",
     "Tighnari",
     "Traveler (Anemo)",
+    "Traveler (Cryo)",
     "Traveler (Dendro)",
     "Traveler (Electro)",
     "Traveler (Geo)",
@@ -227,6 +228,7 @@
     "Thoma",
     "Tighnari",
     "Traveler (Anemo)",
+    "Traveler (Cryo)",
     "Traveler (Dendro)",
     "Traveler (Electro)",
     "Traveler (Geo)",
@@ -255,7 +257,7 @@
     "Zhongli",
     "Zibai"
   ],
-  "total_wiki": 126,
+  "total_wiki": 127,
   "total_scraped": 0,
-  "run_date": "2026-07-26"
+  "run_date": "2026-08-02"
 }
