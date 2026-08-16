@@ -4,6 +4,7 @@
     "Albedo",
     "Alhaitham",
     "Aloy",
+    "Alyosha",
     "Amber",
     "Arataki Itto",
     "Arlecchino",
@@ -80,6 +81,7 @@
     "Nilou",
     "Ningguang",
     "Noelle",
+    "Odette",
     "Ororon",
     "Prune",
     "Qiqi",
@@ -133,6 +135,7 @@
     "Albedo",
     "Alhaitham",
     "Aloy",
+    "Alyosha",
     "Amber",
     "Arataki Itto",
     "Arlecchino",
@@ -209,6 +212,7 @@
     "Nilou",
     "Ningguang",
     "Noelle",
+    "Odette",
     "Ororon",
     "Prune",
     "Qiqi",
@@ -257,7 +261,7 @@
     "Zhongli",
     "Zibai"
   ],
-  "total_wiki": 127,
+  "total_wiki": 129,
   "total_scraped": 0,
-  "run_date": "2026-08-09"
+  "run_date": "2026-08-16"
 }
