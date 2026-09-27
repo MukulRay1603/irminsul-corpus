@@ -1,11 +1,11 @@
 {
-  "run_at": "2026-09-20T07:54:23.498266",
+  "run_at": "2026-09-27T08:07:55.450433",
   "results": {
     "wiki": "ok"
   },
   "docs_counts": {
     "tcl": 316,
-    "wiki": 127,
-    "structured": 433
+    "structured": 441,
+    "wiki": 129
   }
 }

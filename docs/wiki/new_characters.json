@@ -111,6 +111,8 @@
     "Varesa",
     "Varka",
     "Venti",
+    "Vesna",
+    "Vodyanitsa",
     "Wanderer",
     "Wonderland Manekin",
     "Wriothesley",
@@ -242,6 +244,8 @@
     "Varesa",
     "Varka",
     "Venti",
+    "Vesna",
+    "Vodyanitsa",
     "Wanderer",
     "Wonderland Manekin",
     "Wriothesley",
@@ -261,7 +265,7 @@
     "Zhongli",
     "Zibai"
   ],
-  "total_wiki": 129,
+  "total_wiki": 131,
   "total_scraped": 0,
-  "run_date": "2026-09-20"
+  "run_date": "2026-09-27"
 }
